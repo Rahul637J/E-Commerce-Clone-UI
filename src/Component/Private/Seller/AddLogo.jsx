@@ -20,7 +20,7 @@ const AddLogo = ({storeId}) => {
   
       try {
         const response = await axios.post(
-          `http://localhost:8080/e-commerec/v1/api/stores/${storeId}/images`,
+          `http://localhost:8080/e-commerec/v1/api/stores/${storeId}/logo/images`,
           formData,
           {
             headers: {
@@ -35,32 +35,32 @@ const AddLogo = ({storeId}) => {
       }
     };
   
-    const getLogo = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/stores/${storeId}/store-logo`,
-          { responseType: "arraybuffer" }
-        );
-        if (response.status === 200) {
-          const headers = response.headers; //* --> to get content type of the image **/
+    // const getLogo = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://localhost:8080/api/v1/stores/${storeId}/store-logo`,
+    //       { responseType: "arraybuffer" }
+    //     );
+    //     if (response.status === 200) {
+    //       const headers = response.headers; //* --> to get content type of the image **/
   
-          const base64Data = btoa(
-            new Uint8Array(response.data).reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              ""
-            )
-          );
-          setImagePath(`data:${headers["content-type"]};base64,${base64Data}`);
-          setFound(true);
-        }
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    };
+    //       const base64Data = btoa(
+    //         new Uint8Array(response.data).reduce(
+    //           (data, byte) => data + String.fromCharCode(byte),
+    //           ""
+    //         )
+    //       );
+    //       setImagePath(`data:${headers["content-type"]};base64,${base64Data}`);
+    //       setFound(true);
+    //     }
+    //   } catch (error) {
+    //     console.log(error.response.data);
+    //   }
+    // };
   
-    useEffect(() => {
-      getLogo();
-    }, [logoAdded]);
+    // useEffect(() => {
+    //   getLogo();
+    // }, [logoAdded]);
   
     console.log(found);
     return (

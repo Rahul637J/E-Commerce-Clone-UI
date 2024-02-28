@@ -1,25 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';  // Import Link component
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';  // Import Link component
 import axios from 'axios';
 import FindAddress from '/src/Component/Public/FindAddress.jsx'; // Import FindAddress component
 import { useAuth } from '/src/Component/Context/AuthProvider.jsx';
+import FindStore from './FindStore';
+import AddAddress from '../Common/AddAddress';
 
 const AboutStore = () => {
   const { auth } = useAuth();
-  const [storeId, setStoreId] = useState(0);
+//   const [storeId, setStoreId] = useState(0);
   const [storeName, setStoreName] = useState('');
   const [storeAbout, setStoreAbout] = useState('');
   const [storeLogoUrl, setStoreLogoUrl] = useState('');
+  const [address,setAddress]=useState({});
+  const {storeId}=useParams();
+  const [addressId,setAddressId]=useState(0);
+
+  const [updateStore,setUpdateStore]=useState(false);
+  const [findAddress,setFindAddress]=useState(false);
+  const [findContact,setFindContact]=useState(false);
+
+//    var updateStore =false;
 
   useEffect(() => {
     const fetchStore = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/e-commerec/v1/api/stores/${auth.userId}`);
         if (response.status === 200) {
-          setStoreId(response.data.data.storeId);
+        //   setStoreId(response.data.data.storeId);
           setStoreName(response.data.data.storeName);
           setStoreAbout(response.data.data.storeAbout);
           setStoreLogoUrl(response.data.data.storeLogoLink);
+          setAddress(response.data.data.address)
+          setAddressId(response.data.data.address.addressId)
+          console.log(addressId)
+          console.log(response.data)
         }
       } catch (err) {
         console.error(err);
@@ -31,111 +46,138 @@ const AboutStore = () => {
     }
   }, [auth.userId]);
 
-  const handleSaveChanges = async (event) => {
+  const handleClick = (event) => {
     event.preventDefault();
-    const URL = `http://localhost:8080/e-commerec/v1/api/stores/${storeId}`;
-    const body = {
-      storeName: storeName,
-      storeAbout: storeAbout,
-      storeLogoLink: storeLogoUrl,
-    };
-    const header = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    };
-
-    try {
-      const updateResponse = await axios.put(URL, body, header);
-      if (updateResponse.status === 200) {
-        setStoreName(updateResponse.data.data.storeName);
-        setStoreAbout(updateResponse.data.data.storeAbout);
-        setStoreLogoUrl(updateResponse.data.data.storeLogoLink);
-        alert("Store Data Updated Successfully");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    setUpdateStore(true);
   };
 
+  const handleFindAddress=(event)=>{
+    event.preventDefault();
+    if(Object.keys(address).length!==0)
+    {
+      setFindAddress(true)
+    }
+    };
+
+    // const handleFindContact=(event)=>{
+    //     event.preventDefault();
+    //     if(Object.keys(address).length!==0)
+    //     {
+    //       setFindContact(true)
+    //     }
+    //     };
+  
   return (
-    <div className='h-screen w-full  flex gap-10 '>
-        <div className='h-full w-80 bg-slate-200'>
-        <Link to={"/seller-dashboard"}>
+    // !First Div
+    <div className='h-screen w-full  flex '>
+        <div className='h-full w-80 flex-row  p-5 border-8 border-green-400 rounded-e-xl'>
+            <div className='h-30 w-full'>
+                <img src={`http://localhost:8080/e-commerec/v1/api/stores/${storeId}/logo/images`}  alt="logo" className='h-40 w-full'/>
+            </div>
+            <div className='h-96 w-full '>
+                <table className='w-full'>
+                <thead className='font-bold  text-center w-full' colSpan="1">{storeName}</thead>
+                    <br />
+                    <tr>
+                        <td className='font-semibold'>About :</td>
+                    </tr>
+                    <tr>
+                    <td colSpan="2">{storeAbout}</td>
+                    </tr>
+                    <br />
+                    {/* //& Update Store */}
+                    <tr>
+                        <td colSpan="2"> 
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full" onClick={handleClick}>Update Store</button>
+                   </td>
+                    </tr>
+                    <br />
+
+                    { Object.keys(address).length === 0 ?
+                     <tr>
+                     <td colSpan="2"> 
+                    <Link to={"/add-address"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full" onClick={handleClick}>Add Address</button></Link> 
+                     </td>
+                     </tr>
+                    :
+                    <tr>
+                        <td colSpan="2"> 
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full" onClick={handleFindAddress}>Get Address</button>
+                        </td>
+                    </tr>
+                    }
+                    <br />
+                    { Object.keys(address).length === 0 ?
+                     <tr>
+                     <td colSpan="2"> 
+                    <Link to={`/add-contact/${addressId}`}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full" onClick={handleClick}>Add Contact</button></Link> 
+                     </td>
+                     </tr>
+                    :
+                    <tr>
+                        <td colSpan="2"> 
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full" onClick={handleClick}>Get Contact</button>
+                        </td>
+                    </tr>
+                    }
+                    <br />
+                    <tr>
+                        <td colSpan="2"> 
+                    <Link to={`/add-product/${storeId}`}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Add Product</button></Link> 
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td colSpan="2"> 
+                    <Link to={`/addproduct-image/${storeId}`}>   <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Add Product Image</button></Link> 
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td colSpan="2"> 
+                        <Link to={"/seller-dashboard"} className=''>
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button>
+                        </Link> 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+{/* 
+        <Link to={"/seller-dashboard"} className=''>
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button>
-          </Link>
+          </Link> */}
         </div>
-      <div className="h-80 w-60 bg flex justify-center items-center">
+        <br />
+        <br />
         <div>
-          <form className="border p-4 bg-red-400 w-80">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <label>StoreName:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      value={storeName}
-                      onChange={(event) => setStoreName(event.target.value)}
-                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>AboutStore:</label>
-                  </td>
-                  <td>
-                    <textarea
-                      value={storeAbout}
-                      onChange={(event) => setStoreAbout(event.target.value)}
-                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                    ></textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>StoreLogoUrl:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      onChange={(event) => setStoreLogoUrl(event.target.value)}
-                      value={storeLogoUrl}
-                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <br />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
-              onClick={handleSaveChanges} // Fixed function name here
-            >
-              Save Changes
-            </button>
-            <br />
-          </form>
-          <Link to={"/edit-store"}>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button>
-          </Link>
+            
         </div>
-      </div>
-      <div className='h-80 w-60 bg-slate-400'>
-        {storeId !== null ? 
-          <FindAddress storeId={storeId} />
-          :
-          <Link to={"/add-address"}>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Add Address</button>
-          </Link>}
+
+     {/* //!Second Div */}
+      <div className="h-screen w-full bg-slate-200 flex p-10 gap-10">
+        <div className=' h-80 w-80'>
+            {updateStore ? <FindStore/> : console.log(false)}
+        </div>
+        <br />
+        { findAddress ?
+         <div className=' h-auto w-auto'>
+          <FindAddress/> 
+        </div>
+        :
+        // <div className=' h-auto w-auto'>
+        // <FindAddress/>
+        // </div>
+        null
+        }
+        <div></div>
+        
       </div>
     </div>
   );
 };
 
 export default AboutStore;
+
+
+{/* <FindStore/> */}
+{/* <Link to={`/update-store/${storeId}`} className=''></Link> */}

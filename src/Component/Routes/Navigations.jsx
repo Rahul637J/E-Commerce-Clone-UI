@@ -20,6 +20,7 @@ import Logout from "../Public/Logout";
 import FindContact from "../Public/FindContact";
 import AboutStore from "../Private/Seller/AboutStore";
 import AddProduct from "../Private/Seller/AddProduct";
+import AddProductImage from "../Private/Seller/AddProductImage";
 
 
 const navs = [
@@ -97,14 +98,14 @@ const navs = [
   role: "ALL",
 },
 {
-  path: "/add-contact",
+  path: "/add-contact/:addressId",
   element: <AddContact/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
   role: "ALL",
 },
 {
-  path: "/find-contact",
+  path: "/find-contact/:addressId",
   element: <FindContact/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
@@ -155,7 +156,7 @@ const navs = [
   role: "SELLER",
 },
 {
-  path: "/edit-store",
+  path: "/edit-store/:storeId",
   element: <EditStoreInfo/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
@@ -169,22 +170,29 @@ const navs = [
   role: "SELLER",
 },
 {
-  path: "/find-store",
+  path: "/edit-store/:storeId",
   element: <FindStore/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
   role: "SELLER",
 },
 {
-  path: "/about-store",
+  path: "/about-store/:storeId",
   element: <AboutStore/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
   role: "SELLER",
 },
 {
-  path: "/add-product",
+  path: "/add-product/:storeId",
   element: <AddProduct/>,
+  requireAuth: true,
+  isVisibleAfterAuth: true,
+  role: "SELLER",
+},
+{
+  path: "/addproduct-image/:storeId",
+  element: <AddProductImage/>,
   requireAuth: true,
   isVisibleAfterAuth: true,
   role: "SELLER",

@@ -23,7 +23,7 @@ const Header = () => {
   };
 
 return (
-  <header className='h-20 w-full bg-blue-400 px-5 py-2 flex-row justify-center items-center' >
+  <header className='h-20 w-full bg-blue-500 px-5 py-2 flex-row justify-center items-center' >
       <nav className='flex h-full'> 
           {/* //& First Block */}
           <div className=' h-full w-2/4 flex px-3 pt-1 gap-2'>
