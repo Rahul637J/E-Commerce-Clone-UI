@@ -12,59 +12,12 @@ const SellerDashBoard = () => {
   const [logo, setLogo] = useState(null);
 
     const{auth}=useAuth();
-
-  //   const handleFileChange = async (event) => {
-  //     const file = event.target.files[0];
-  //     if (file) {
-  //       setLogo(file);
-
-  //        const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   formData.append("image", image);
-
-  //   try {
-  //     const response = await axios.post(
-  //       http://localhost:8080/api/v1/stores/${storeId}/images,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data.data.message);
-  //     setLogoAdded(true);
-  //   } catch (error) {
-  //     console.log(error.response.data.message);
-  //   }
-  // };
-
-    
-    //     try {
-    //       const formData = new FormData(event.target.form);
-    //       formData.append("file", file);
-    //       const URL = `http://localhost:8080/e-commerec/v1/api/stores/${storeId}/images`;
-    //       const header = {
-    //         headers: {
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //         withCredentials: true,
-    //       };
-    
-    //       const uploadFile = await axios.post(URL, formData, header);
-    //       console.log("File Uploaded:", uploadFile.data);
-    //     } catch (error) {
-    //       console.error("File upload failed:", error.message);
-    //       // Provide user feedback for failed upload
-    //     }
-    //   }
-    // };
     
     useEffect(() => {
         const fetchStore = async () => {
           try {
+
+
             const response = await axios.get(`http://localhost:8080/e-commerec/v1/api/stores/${auth.userId}`);
             if (response.status === 200) {
               setStoreId(response.data.data.storeId);
@@ -100,6 +53,9 @@ const SellerDashBoard = () => {
       <table className="flex justify-center items-center p-3">
         <tbody>
           <tr>
+            <img src={`http://localhost:8080/e-commerec/v1/api/stores/${storeId}/logo/images`} alt="Logo" className="h-10 w-10"/>
+          </tr>
+          <tr>
             <td>StoreName : </td>
             <td>{storeName}</td>
           </tr>
@@ -112,39 +68,20 @@ const SellerDashBoard = () => {
           <Link to={"/find-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Edit Store</button></Link>
           </td>
           <td>
-          <Link to={"/about-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">About Store</button></Link>
+          <Link to={`/about-store/${storeId}`}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">About Store</button></Link>
           </td>
           </tr>
         </tbody>
       </table>
   </form>
 }
-<div>
+{
+ <div>
 
   <AddLogo storeId={storeId}/>
-{/* <form onSubmit={handleSubmit}>
-              <div></div>
-              <div>
-                <div className="w-1/2 h-1/2 bg-gray-500 rounded-full">
-                  no image
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
 
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="bg-white p-2 mt-5 rounded-2xl "
-                >
-                  Upload
-                </button>
-              </div>
-            </form> */}
           </div>
+}
         </div>
         
 <div className='w-full h-40 border border-solid bg-white rounded-md'>Gross Revenue</div>
@@ -159,7 +96,7 @@ const SellerDashBoard = () => {
     </li>
 
     <li className='w-1/2 text-sm flex items-center justify-center flex-col'> {/* Updated class for center alignment */}
-    <Link to={"/add-product"} className="flex justify-center items-center flex-col">
+    <Link to={`/add-product/${storeId}`} className="flex justify-center items-center flex-col">
       <i className="fa-solid fa-arrow-down text-3xl"></i>
       Add Products
       </Link>
@@ -172,7 +109,7 @@ const SellerDashBoard = () => {
       Manage Orders
     </li>
     <li className='w-1/2 text-sm flex items-center justify-center'> {/* Updated class for center alignment */}
-    <Link to={"/edit-store"} className="flex justify-center items-center flex-col">  <i className="fa-solid fa-shop text-3xl"></i>
+    <Link to={`/edit-store/${storeId}`} className="flex justify-center items-center flex-col">  <i className="fa-solid fa-shop text-3xl"></i>
       Edit Store Info</Link>
     </li>
   </ul>

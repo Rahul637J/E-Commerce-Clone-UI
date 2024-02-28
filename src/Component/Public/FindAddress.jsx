@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FindContact from './FindContact';
 
-const FindAddress = ({storeId}) => {
+const FindAddress = () => {
     // const { auth } = useAuth();
     const [addressId, setAddressId] = useState(0);
     const [streetAddress, setStreetAddress] = useState('');
@@ -14,6 +14,7 @@ const FindAddress = ({storeId}) => {
     const [pincode, setPincode] = useState();
     const [addressType, setAddressType] = useState('HOME');
     const [contact,setContact]=useState([])
+    const {storeId} =useParams()
     console.log(storeId)
   
     useEffect(() => {
@@ -194,7 +195,7 @@ const FindAddress = ({storeId}) => {
             </button >
             <br />
           </form>
-          <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link>
+          {/* <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link> */}
 
         </div>
 

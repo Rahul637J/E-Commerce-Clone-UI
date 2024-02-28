@@ -88,8 +88,6 @@ const rafce = () => {
       </tbody>
     </table>
 
-   
-
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       <h1 className='text-xl text-blue-700 '><Link to={"/customer/register"}>New to RJ Online Shopping ? create the account </Link></h1>
   </form>

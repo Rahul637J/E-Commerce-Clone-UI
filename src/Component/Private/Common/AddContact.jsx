@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const AddContact = () => {
     const [contactName, setContactName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [priority, setPriority] = useState('PRIMARY'); // Default to PRIMARY
-    const addressId=localStorage.getItem("addressId");
+    const {addressId}=useParams();
 
     const handleSubmit = async (event) => {
         event.preventDefault();

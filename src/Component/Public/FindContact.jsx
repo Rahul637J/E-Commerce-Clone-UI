@@ -60,7 +60,7 @@ const FindContact = ({contactId}) => {
   
     return (
         <div>
-          <form className="border p-4 bg-red-400 w-80">
+          <form className="border p-4 bg-red-400 w-80 ">
             <table>
               <tbody>
                 <tr>
@@ -81,11 +81,11 @@ const FindContact = ({contactId}) => {
                     <label>ContactNumber:</label>
                   </td>
                   <td>
-                    <textarea
+                    <input
                       value={contactNumber}
                       onChange={(event) => setContactNumber(event.target.value)}
                       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                    ></textarea>
+                    ></input>
                   </td>
                 </tr>
                 <tr>
@@ -114,7 +114,7 @@ const FindContact = ({contactId}) => {
             </button>
             <br />
           </form>
-          <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link>
+          {/* <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link> */}
         </div>
     );
   };

@@ -61,9 +61,8 @@ const FindStore = () => {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center items-center bg-slate-200">
       <div>
-        <form className="border p-4 bg-red-400">
+        <form className="border p-4 bg-red-400 ">
           <table>
             <tbody>
               <tr>
@@ -117,10 +116,8 @@ const FindStore = () => {
           <br />
 
         </form>
-        <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link>
-
+        {/* <Link to={"/edit-store"}><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Back</button></Link> */}
       </div>
-    </div>
   );
 };
 
